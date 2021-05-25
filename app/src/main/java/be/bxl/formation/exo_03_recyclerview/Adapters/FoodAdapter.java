@@ -1,6 +1,7 @@
 package be.bxl.formation.exo_03_recyclerview.Adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import be.bxl.formation.exo_03_recyclerview.models.Food;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     private List<Food> foodList;
+    private Context context;
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvName, tvCalory;
@@ -52,7 +54,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     }
     //region Constructeur de l'adapteur
-    public FoodAdapter(ArrayList<Food> foods){
+    public FoodAdapter(Context context, List<Food> foods){
+        this.context = context;
         this.foodList = foods;
     }
     //endregion
@@ -66,17 +69,20 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-                Food target = foodList.get(position);
+        Food target = foodList.get(position);
+        String fCalory = String.format("%s %s", target.getCalory(), context.getString(R.string.unit_calory));
 
         holder.getTvName().setText(target.getName());
         holder.getTvCalory().setText(String.valueOf(target.getCalory()));
+
+        holder.getCvCategory().setCardBackgroundColor(R.color.food_other);
         // Comment gérer le spinner dans l'adapteur ? holder.getSpCategory()
         if(target.getCategory()== Food.Category.FRUIT){
-            holder.getCvCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.purple_200));
+            holder.getCvCategory().setCardBackgroundColor(R.color.food_fruit);
         } else if (target.getCategory() == Food.Category.MEAT){
-            holder.getCvCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.design_default_color_primary));
-        } else {holder.getCvCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.design_default_color_secondary));
-        }
+            holder.getCvCategory().setCardBackgroundColor(R.color.food_meat);
+        } else if (target.getCategory() == Food.Category.VEGETABLE) {holder.getCvCategory().setCardBackgroundColor(R.color.food_vegetable);
+        } else {throw new RuntimeException("Undefined food color");}
     }
 
     @Override
