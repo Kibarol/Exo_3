@@ -7,44 +7,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.bxl.formation.exo_03_recyclerview.R;
 import be.bxl.formation.exo_03_recyclerview.models.Food;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
-    private ArrayList<Food> foodList;
+    private List<Food> foodList;
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private EditText etName, etCalory;
-        private Spinner spCategory;
+        private TextView tvName, tvCalory;
+        private CardView cvCategory;
 
         public ViewHolder(View v) {
             super(v);
 
             //Liaison avec layout
-            etName = v.findViewById(R.id.et_main_food_name);
-            etCalory = v.findViewById(R.id.et_main_food_calory);
-            spCategory = v.findViewById(R.id.sp_main_food_type);
+            tvName = v.findViewById(R.id.item_food_name);
+            tvCalory = v.findViewById(R.id.item_food_calory);
+            cvCategory = v.findViewById(R.id.item_cv_color);
         }
         //region Getters
-
-        public EditText getEtName() {
-            return etName;
+        public TextView getTvName() {
+            return tvName;
         }
 
-        public EditText getEtCalory() {
-            return etCalory;
+        public TextView getTvCalory() {
+            return tvCalory;
         }
 
-        public Spinner getSpCategory() {
-            return spCategory;
+        public CardView getCvCategory() {
+            return cvCategory;
         }
+
         //endregion
 
     }
@@ -65,14 +68,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                 Food target = foodList.get(position);
 
-        holder.getEtName().setText(target.getName());
-        holder.getEtCalory().setText(String.valueOf(target.getCalory()));
+        holder.getTvName().setText(target.getName());
+        holder.getTvCalory().setText(String.valueOf(target.getCalory()));
         // Comment gérer le spinner dans l'adapteur ? holder.getSpCategory()
         if(target.getCategory()== Food.Category.FRUIT){
-            holder.getSpCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.purple_200));
+            holder.getCvCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.purple_200));
         } else if (target.getCategory() == Food.Category.MEAT){
-            holder.getSpCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.design_default_color_primary));
-        } else {holder.getSpCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.design_default_color_secondary));
+            holder.getCvCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.design_default_color_primary));
+        } else {holder.getCvCategory().setBackgroundTintList(ColorStateList.valueOf(R.color.design_default_color_secondary));
         }
     }
 
